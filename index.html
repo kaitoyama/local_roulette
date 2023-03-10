@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- jQueryを読み込む -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <title>Roullet</title>
+    <!-- CSSファイルを読み込む -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- 表示用の要素を用意 -->
+    <!-- 抽選した数を表示する要素 -->
+    <h1 id="string">1</h1>
+    <!-- 履歴を表示する要素(初期は半角スペースのみ) -->
+    <h3 id="history">&nbsp;</h3>
+    <!-- 抽選ボタン -->
+    <a id="button1" href="javascript:void(0);" class="btn_05">回す!</a>
+    <!-- ソートのトグルスイッチ -->
+    <h3 id="history_sort">&nbsp;</h3>
+    <!-- ドラムロールの音源ファイル -->
+    <audio src="drumRoll-6.mp3" id="play-button"></audio>
+
+    <div class="sort">
+        <input type="checkbox" name="check" />
+    </div>
+
+</body>
+
+<footer>
+    <!-- 効果音の提供元を表示する -->
+    <p>効果音:OtoLogic</p>
+</footer>
+<!-- JavaScriptファイルを読み込む -->
+<script src="script.js"></script>
+
+</html>
