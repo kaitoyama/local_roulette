@@ -8,6 +8,49 @@ $(function () {
     var delay = 10;
     var maxDelay = 1000;
 
+    // CSVファイルのパスを指定
+    const csvPath = 'test.csv';
+
+    // XMLHttpRequestオブジェクトを生成
+    const xhr = new XMLHttpRequest();
+
+    // CSVファイルを非同期で読み込む
+    xhr.open('GET', csvPath, true);
+
+    // レスポンスタイプをCSVに設定
+    xhr.responseType = 'text';
+
+    // 読み込み完了時の処理
+    xhr.onload = () => {
+        // レスポンステキストを取得
+        const csvText = xhr.response;
+
+        // 改行コードで分割して配列にする
+        const lines = csvText.split('\n');
+
+        // カンマで分割して各列を配列に格納するための空の配列を用意
+        const columns = [];
+        for (let i = 0; i < lines[0].split(',').length; i++) {
+            columns.push([]);
+        }
+
+        // 各行の各列の値を配列に格納
+        for (let i = 1; i < lines.length; i++) {
+            const values = lines[i].split(',');
+            for (let j = 0; j < values.length; j++) {
+                columns[j].push(values[j]);
+            }
+        }
+
+        // 結果を表示
+        console.log(columns);
+        primeArray = columns[0];
+    };
+
+    // 読み込み開始
+    xhr.send();
+
+
     // 回すボタンをクリックしたときの処理
     $("#button1").click(function () {
         // ボタンを無効にする
