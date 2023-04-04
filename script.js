@@ -7,6 +7,8 @@ $(function () {
     var startTime = 0;
     var delay = 10;
     var maxDelay = 1000;
+    var history_text = "";
+    var history_output = "";
 
     // CSVファイルのパスを指定
     const csvPath = 'test.csv';
@@ -74,11 +76,13 @@ $(function () {
                     return 0;
                 }
             });
-            $("#history").text(historyArraySorted.join(" - "));
+            history_output = make_nice_parse(historyArraySorted, history_text, history_output)
+            $("#history").html(history_output);
         } else {
             // ソートがトグルされている場合は、ソートを解除して、履歴順に数値をテキスト要素に表示する
             $(".sort input").prop("checked", false);
-            $("#history").text(historyArray.join(" - "));
+            history_output = make_nice_parse(historyArray, history_text, history_output);
+            $("#history").html(history_output);
         }
     });
 
@@ -117,11 +121,9 @@ $(function () {
             }, 5270 - 1950)
             // 履歴に追加
             addHistory(primeArray[0])
-            // 履歴が増えてきたらフォントを小さくする
-            if (historyArray.length > 30) {
-                $("h3").css("font-size", "20pt")
-            }
-            $("#history").text(historyArray.join(" - "));
+
+            history_output = make_nice_parse(historyArray, history_text, history_output);
+            $("#history").html(history_output);
             return;
 
         } else {
@@ -136,10 +138,38 @@ $(function () {
 
     // ヒストリーを更新する処理
     function addHistory(number) {
-        console.log(number)
+        console.log(number);
         primeArray.shift();
         historyArray.push(number);
         console.log(primeArray);
         console.log(historyArray);
+    }
+
+    //いい感じに改行<br>を挿入する処理
+    function make_nice_parse(historyArray, history_text, history_output) {
+        history_text = historyArray.join(" - ");
+        history_output = historyArray.join(" - ");
+        var size = $("h3").css("font-size");
+        var window_width = $(window).width();
+        var before = 0;
+        var counter = 0;
+        for (let index = 0; index < history_text.length; index++) {
+            if (history_text[index] == "-" && (window_width <= size.slice(0, -2) * (index - before))) {
+                history_output = history_output.slice(0, index + 4 * counter) + "<br>" + history_output.slice(index + 4 * counter);
+                before = index;
+                counter += 1;
+                console.log("yay")
+            }
+
+
+        }
+        if (counter > 2) {
+            // 履歴が増えてきたらフォントを小さくする
+            $("h3").css("font-size", "20pt")
+            history_output = make_nice_parse(historyArray, history_text, history_output);
+
+        }
+        console.log("history output: " + history_output);
+        return history_output;
     }
 });
