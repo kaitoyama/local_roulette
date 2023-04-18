@@ -122,6 +122,11 @@ $(function () {
             // 履歴に追加
             addHistory(primeArray[0])
 
+            //文字を小さくするかどうか
+            if (make_nice_parse(historyArray, history_text, history_output, true) > 2) {
+                $("h3").css("font-size", "20pt")
+            }
+
             history_output = make_nice_parse(historyArray, history_text, history_output);
             $("#history").html(history_output);
             return;
@@ -146,7 +151,7 @@ $(function () {
     }
 
     //いい感じに改行<br>を挿入する処理
-    function make_nice_parse(historyArray, history_text, history_output) {
+    function make_nice_parse(historyArray, history_text, history_output, checkmode = false) {
         history_text = historyArray.join(" - ");
         history_output = historyArray.join(" - ");
         var size = $("h3").css("font-size");
@@ -158,16 +163,14 @@ $(function () {
                 history_output = history_output.slice(0, index + 4 * counter) + "<br>" + history_output.slice(index + 4 * counter);
                 before = index;
                 counter += 1;
-                console.log("yay")
+                console.log(size);
+                console.log("yay");
             }
 
 
         }
-        if (counter > 2) {
-            // 履歴が増えてきたらフォントを小さくする
-            $("h3").css("font-size", "20pt")
-            history_output = make_nice_parse(historyArray, history_text, history_output);
-
+        if (checkmode) {
+            return counter;
         }
         console.log("history output: " + history_output);
         return history_output;
